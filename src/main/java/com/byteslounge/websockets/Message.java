@@ -6,7 +6,7 @@ public class Message {
 
 	private String nickname;
 	private String text;
-    private long time;
+//    private long time;
 
     public Message(){
         this("", "");
@@ -15,9 +15,8 @@ public class Message {
     public Message(String author, String text){
         this.nickname = author;
         this.text = text;
-        this.time = new Date().getTime();
+//        this.time = new Date().getTime();
     }
-
     public String getNickname() {
         return nickname;
     }
@@ -34,11 +33,11 @@ public class Message {
         this.text = text;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
+//    public long getTime() {
+//        return time;
+//    }
+//
+//    public void setTime(long time) {
+//        this.time = time;
+//    }
 }

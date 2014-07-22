@@ -13,14 +13,15 @@
 
 <form class="form-inline">
     <button ng-click="connect()" class="btn">Connect</button>
-    <input type="text" ng-model="name" placeholder="input message to send"/>
-    <input type="text" ng-model="text" placeholder="input message to send"/>
+    <input type="text" ng-model="message.nickname" placeholder="input message to send"/>
+    <input type="text" ng-model="message.text" placeholder="input message to send"/>
     <button ng-click="send()" class="btn">send</button>
 </form>
 
 <table class="table table-striped">
     <tr ng-repeat="message in messages">
-        <td>{{message}}</td>
+        <td>{{message.nickname}}</td>
+        <td>{{message.text}}</td>
     </tr>
 </table>
 </body>

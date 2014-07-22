@@ -10,30 +10,29 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/websocket"/*, encoders = { MessageEncoder.class }, decoders = { MessageDecoder.class }*/)
+@ServerEndpoint(value = "/websocket", encoders = { MessageEncoder.class }, decoders = { MessageDecoder.class })
+
 public class WebSocketTest {
 
 	@OnMessage
-	public void onMessage(String message, Session session) throws IOException/*,
-			EncodeException*/ {
+	public void onMessage(Message message, Session session) throws IOException, EncodeException {
 
-		/*// Echo the received message back to the client
 		Message response = new Message();
-		response.setSubject("Response to " + message.getSubject());
-		response.setContent("echo " + message.getContent());*/
-
-        /*for (Session s : session.getOpenSessions()) {
-            if (s.isOpen()) {s.getBasicRemote().sendObject(response);}
-        }*/
-
-        session.getBasicRemote().sendText ("[Server] Hello men");
+		response.setNickname("Response to " + message.getNickname());
+		response.setText("echo " + message.getText());
 
         for (Session s : session.getOpenSessions()) {
-            if (s.isOpen()) {
-                s.getBasicRemote().sendText(message);
-            }
-
+            if (s.isOpen()) {s.getBasicRemote().sendObject(response);}
         }
+
+//        session.getBasicRemote().sendText ("[Server] Hello men");
+//
+//        for (Session s : session.getOpenSessions()) {
+//            if (s.isOpen()) {
+//                s.getBasicRemote().sendText(message);
+//            }
+//
+//        }
     }
 
 	@OnOpen
