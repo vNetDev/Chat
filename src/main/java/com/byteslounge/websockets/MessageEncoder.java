@@ -15,6 +15,7 @@ public class MessageEncoder implements Encoder.Text<Message> {
 				.add("nickname", message.getNickname())
 				.add("text", message.getText())
                 .add("time", message.getTime())
+                .add("sent", message.isSent())
                 .build();
 
         return jsonObject.toString();
