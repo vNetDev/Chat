@@ -18,11 +18,11 @@ app.factory('ChatService', function() {
             service.callback('Error');
         }
 
-        websocket.onmessage = function(message) {
+        websocket.onmessage = function(event) {
 
-        console.log("OnMessage function from Service" + message);
+        console.log("OnMessage function from Service" + event);
 
-            service.callback(JSON.parse(message.data));
+            service.callback(JSON.parse(event.data));
         };
 
         service.websocket = websocket;
@@ -46,8 +46,8 @@ app.factory('ChatService', function() {
 
  app.controller('AppCtrl',['$scope', 'ChatService', function($scope, ChatService) {
 
-    $scope.messages = [{'nickname':'Vasil',
-                        'text':'Privit'}
+    $scope.messages = [{'nickname':'',
+                        'text':''}
     ];
       ChatService.subscribe(function(message) {
 
@@ -65,9 +65,9 @@ app.factory('ChatService', function() {
         $scope.nickname = '';
         $scope.text = '';
 
-        console.log("Send() function from Controller");
+        console.log("Send() function from Controller" );
 //        console.log($scope.message);
-        ChatService.send($scope.message);
+        ChatService.send(JSON.stringify($scope.message));
 
         console.log($scope.message);
       }

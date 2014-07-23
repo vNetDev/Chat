@@ -13,8 +13,11 @@ public class MessageEncoder implements Encoder.Text<Message> {
 
 		JsonObject jsonObject = Json.createObjectBuilder()
 				.add("nickname", message.getNickname())
-				.add("text", message.getText()).build();
-		return jsonObject.toString();
+				.add("text", message.getText())
+                .add("time", message.getTime())
+                .build();
+
+        return jsonObject.toString();
 
 	}
 

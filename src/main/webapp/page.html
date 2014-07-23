@@ -5,11 +5,11 @@
 </head>
 <body>
 	<div>
-		<span>Subject:</span>
-		<input id="subject" type="text" />
+		<span>nickname:</span>
+		<input id="nickname" type="text" />
 		<br />
-		<span>Content:</span>
-		<input id="content" type="text" />
+		<span>text:</span>
+		<input id="text" type="text" />
 	</div>
 	<div>
 		<input type="submit" value="Send message" onclick="send()" />
@@ -35,8 +35,8 @@
 			var json = JSON.parse(event.data);
 			document.getElementById('messages').innerHTML 
 				= '<br />Received server response!'
-				+ '<br />Subject: ' + json.subject
-				+ '<br />Content: ' + json.content;
+				+ '<br />nickname: ' + json.nickname
+				+ '<br />text: ' + json.text;
 		}
 
 		function onOpen(event) {
@@ -48,11 +48,11 @@
 		}
 
 		function send() {
-			var subject = document.getElementById('subject').value;
-			var content = document.getElementById('content').value;
+			var subject = document.getElementById('nickname').value;
+			var content = document.getElementById('text').value;
 			var json = { 
-				'subject' : subject,
-				'content' : content
+				'nickname' : subject,
+				'text' : content
 			};
 			webSocket.send(JSON.stringify(json));
 			return false;

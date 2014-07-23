@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Interview</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/bootstrap-3.2.0-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/interview.css">
+    <link rel="stylesheet" href="../css/chat.css">
+    <link rel="stylesheet" href="../css/applicantPopup.css">
+    <link rel="stylesheet" href="../css/timer.css">
+
+</head>
+<body>
+    <header>
+        <div id="header-left-group">
+
+            <div id="header-logo"></div>
+            <div id="page-title">Interview</div>
+        </div>
+
+        <div ng-controller="ModalDemoCtrl">
+
+             <a  id="applicant-btn" ng-click="openAppPop()"  href="#"><span class="glyphicon glyphicon-user"></span> {{applicant.name}} {{applicant.lastname}}</a>
+
+        </div>
+
+        <div id="header-right-group"  ng-controller="ModalDemoCtrl">
+            <a id="finish-btn"   ng-click="openFCPop()" href="#"><span class="glyphicon glyphicon-ok"></span></a>
+
+            <div class="timeOn" ng-controller="timerCtrl" ng-class="{'timeUp': isForward}">
+                {{ duration  | date:"mm:ss" }}
+
+            </div>
+
+
+            <a id="header-user-profile-btn" ng-controller="userHeaderCtrl" href="#"><span> <img class="img-rounded" src="../img/userpic-small.png" alt="user-pic">  {{user.name}} {{user.lastname}}</span> </a>
+        </div>
+    </header>
+    <div ng-controller="QuestionsController" id="main-panel">
+    <div id="left-panel" >
+        <div class="panel-title">Questions</div>
+        <div id="questions-list">
+<div class="list-group">
+    <a ng-repeat="question in questions" class="list-group-item" ng-class="{'answered': isAnswered(question) ,'active':isActive(question) }" href="#" data-toggle="tab" ng-click="selectQuestion(question)">{{ question.question }}</a>
+    </div>
+        </div>
+        <a id="new-question-btn" class="panel-btn" href="#" ng-click="newQuestion()">
+            <span class="glyphicon glyphicon-edit"></span> New Question
+        </a>
+    </div>
+    <div id="central-panel">
+        <div class="panel-title">Question Manager</div>3
+
+
+
+
+        <div id="question-manager">
+            <div id="question-container">
+                <textarea id="question-area" placeholder="Enter your question over here ..." required ng-model="question.question"></textarea>
+            </div>
+            <div id="comment-container">
+                <textarea id="comment-area" placeholder="Enter your comment over here ..." required ng-model="question.comment"></textarea>
+            </div>
+            <div class="rating-container">
+                <div id="question-mark">
+                <b>Mark:</b>
+                   <rating ng-model="question.mark" max="10" state-on="'glyphicon-star'" state-off="'glyphicon-star-empty'" on-hover="hoveringOver(value)" on-leave="hoverMark = null"></rating><b>
+
+                <span id="mark">{{hoverMark || question.mark}}</span>/10</b>
+                </div>
+                <div id="question-weight">
+                <b>Weight:</b>
+                   <rating ng-model="question.weight" max="4" state-on="'glyphicon-stop'" state-off="'glyphicon-unchecked'"></rating><b>
+                <span id="weight">{{intToWeight(question.weight)}}</span></b>
+                </div>
+            </div>
+        </div>
+        <a id="submit-question-btn" class="panel-btn" ng-click="submitQuestion(question)" href="#">
+            <span class="glyphicon glyphicon-ok"></span> Submit
+        </a>
+    </div>
+    </div>
+    <div id="right-panel" ng-controller="ChatController">
+
+        <div class="panel-title">Chat/Notifications</div>
+       <div class="join-panel">
+        <button ng-click="connect()" class="btn">JOIN TO CONVERSATION</button>
+           <div ng-switch="ONLINE">
+               <div ng-switch-when="true" style="width: 16px; color: green; text-align: center;">ONLINE</div>
+               <div ng-switch-default style="width: 16px; color: red; text-align: center;">OFFLINE</div>
+           </div>
+        </div>
+
+        <div id="panel-notifications">
+            <div class="dm-chat">
+                <div ng-repeat="message in messages" class="dm">
+                                                                          <!--ng-class="{'sent':message.sent}"-->
+                    <img class="avatar" ng-src="https://pbs.twimg.com/profile_images/2077664484/avatar234_normal.png">
+                    <div class="dm-content">
+                        <small class="time">
+                            <span class="_timestamp">
+                                {{message.time | date:'HH:mm:ss'}}
+                            </span>
+                        </small>
+                        <div class="dm-message">
+                                                                            <!--ng-class="{'sent':message.sent}"-->
+                            <p class="js-tweet-text tweet-text">{{message.text}}</p>
+                            <div class="dm-caret">
+                                <div class="dm-caret-outer"></div>
+                                <div class="dm-caret-inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panel-chat">
+            <div id="message-nickname">
+                <textarea ng-model="message.nickname" placeholder="What is your name, stranger?" required></textarea>
+            </div>
+            <div id="message-content">
+                <textarea  ng-model="message.text" placeholder="What's up?" required></textarea>
+            </div>
+                       <a class="panel-btn" id="send-msg-btn" ng-click="send()">
+                <span class="glyphicon glyphicon-envelope"></span> Send message
+            </a>
+        </div>
+
+
+        <!--<form class="form-inline">-->
+            <!--<button ng-click="connect()" class="btn">Connect</button>-->
+            <!--<input type="text" ng-model="message.nickname" placeholder="input message to send"/>-->
+            <!--<input type="text" ng-model="message.text" placeholder="input message to send"/>-->
+            <!--<button ng-click="send()" class="btn">send</button>-->
+        <!--</form>-->
+
+        <!--<table class="table table-striped">-->
+            <!--<tr ng-repeat="message in messages">-->
+                <!--<td>{{message.nickname}}</td>-->
+                <!--<td>{{message.text}}</td>-->
+                <!--<td>{{message.time  | date:'HH:mm:ss'}}</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+
+    </div>
+
+    <script type="text/javascript" src="../js/angular.js"></script>
+    <script type="text/javascript" src="../js/interviewApp.js"></script>
+    <script type="text/javascript" src="../js/ngActivityIndicator.js"></script>
+    <script type="text/javascript" src="../js/ui-bootstrap-tpls-0.11.0.js"></script>
+    <script type="text/javascript" src="../components/header-menu/applicant/applicantHeaderCtrl.js" ></script>
+    <script type="text/javascript" src="../components/questions/questionsCtrl.js"></script>
+    <script type="text/javascript" src="../components/chat/chatCtrl.js"></script>
+    <script type="text/javascript" src="../components/chat/chatSvc.js"></script>
+    <script type="text/javascript" src="../components/questions/questionSvc.js"></script>
+    <script type="text/javascript" src="../components/header-menu/timer/timerCtrl.js" ></script>
+    <script type="text/javascript" src="../components/header-menu/user/userHeaderCtrl.js" ></script>
+    <script type="text/javascript" src="../components/header-menu/final-comment/finalComCtrl.js"></script>
+</body>
+</html>

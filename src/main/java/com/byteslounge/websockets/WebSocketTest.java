@@ -10,7 +10,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/websocket", encoders = { MessageEncoder.class }, decoders = { MessageDecoder.class })
+@ServerEndpoint(value = "/websocket", encoders = { MessageEncoder.class },
+                                      decoders = { MessageDecoder.class })
 
 public class WebSocketTest {
 
@@ -18,8 +19,9 @@ public class WebSocketTest {
 	public void onMessage(Message message, Session session) throws IOException, EncodeException {
 
 		Message response = new Message();
-		response.setNickname("Response to " + message.getNickname());
-		response.setText("echo " + message.getText());
+		response.setNickname(message.getNickname());
+		response.setText(message.getText());
+        response.setTime(message.getTime());
 
         for (Session s : session.getOpenSessions()) {
             if (s.isOpen()) {s.getBasicRemote().sendObject(response);}
